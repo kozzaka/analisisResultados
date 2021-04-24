@@ -1,0 +1,44 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+
+library(RMySQL)
+
+#credenciales bbdd
+mysqlconnection = dbConnect (MySQL(), user='blauet' ,password='rioanoiashit', dbname='meteofou_data', host='172.31.17.240')
+
+#usa sólo las últimas 96 últimas mediciones de la tabla SensorData
+result = dbSendQuery(mysqlconnection, "select * from SensorData ORDER BY id DESC LIMIT 10")
+data.frame=fetch(result,n=10)
+print(data.frame)
+
+
+
+# gener gráfico
+datos<-data.frame
+datos$reading_time= strptime(datos$reading_time, '%d.%m.%Y %H:%M:%S')
+
+par(mar = c(5,5,2,5))
+with(datos, plot(id, value1, type="l", col="red3", 
+             ylab=expression(temperatura),
+             ylim=c(0,3)))
+
+par(new = T)
+with(datos, plot(id, value2, pch=16, axes=F, xlab=NA, ylab=NA, cex=1.2, type="l",lty=2, main="",lwd=2))
+axis(side = 2)
+mtext(side = 2, line = 3, 'Number genes selected')
+legend("topleft",
+       legend=c(expression(-log[10](italic(p))), "N genes"),
+       lty=c(1,0), pch=c(NA, 16), col=c("red3", "black"))
+
+
+
+
+```

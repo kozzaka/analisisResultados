@@ -1,0 +1,742 @@
+---
+title: "Metrics todos *k_i^ *k_t"
+output: html_notebook
+---
+
+```{r}
+
+data.frame(metric.d_4)
+library("tidyverse")
+my_data <- as_tibble(metric.d_4)
+
+# Filtramos por nivel de K_i
+
+my_data %>% filter(k_Init ==1)
+dfKi1 <- my_data %>% filter(k_Init ==1)
+
+my_data %>% filter(k_Init ==2)
+dfKi2 <- my_data %>% filter(k_Init ==2)
+
+my_data %>% filter(k_Init ==3)
+dfKi3 <- my_data %>% filter(k_Init ==3)
+
+my_data %>% filter(k_Init ==4)
+dfKi4 <- my_data %>% filter(k_Init ==4)
+
+my_data %>% filter(k_Init ==5)
+dfKi5 <- my_data %>% filter(k_Init ==5)
+
+my_data %>% filter(k_Init ==6)
+dfKi6 <- my_data %>% filter(k_Init ==6)
+
+my_data %>% filter(k_Init ==7)
+dfKi7 <- my_data %>% filter(k_Init ==7)
+
+my_data %>% filter(k_Init ==8)
+dfKi8 <- my_data %>% filter(k_Init ==8)
+
+my_data %>% filter(k_Init ==9)
+dfKi9 <- my_data %>% filter(k_Init ==9)
+
+my_data %>% filter(k_Init ==10)
+dfKi10 <- my_data %>% filter(k_Init ==10)
+
+my_data %>% filter(k_Init ==11)
+dfKi11 <- my_data %>% filter(k_Init ==11)
+
+my_data %>% filter(k_Init ==12)
+dfKi12 <- my_data %>% filter(k_Init ==12)
+
+my_data %>% filter(k_Init ==13)
+dfKi13 <- my_data %>% filter(k_Init ==13)
+
+my_data %>% filter(k_Init ==14)
+dfKi14 <- my_data %>% filter(k_Init ==14)
+
+my_data %>% filter(k_Init ==15)
+dfKi15 <- my_data %>% filter(k_Init ==15)
+
+my_data %>% filter(k_Init ==16)
+dfKi16 <- my_data %>% filter(k_Init ==16)
+
+my_data %>% filter(k_Init ==17)
+dfKi17 <- my_data %>% filter(k_Init ==17)
+
+my_data %>% filter(k_Init ==18)
+dfKi18 <- my_data %>% filter(k_Init ==18)
+
+my_data %>% filter(k_Init ==19)
+dfKi19 <- my_data %>% filter(k_Init ==19)
+
+my_data %>% filter(k_Init ==20)
+dfKi20 <- my_data %>% filter(k_Init ==20)
+
+my_data %>% filter(k_Init ==21)
+dfKi20 <- my_data %>% filter(k_Init ==21)
+
+my_data %>% filter(k_Init ==22)
+dfKi22 <- my_data %>% filter(k_Init ==22)
+
+my_data %>% filter(k_Init ==23)
+dfKi23 <- my_data %>% filter(k_Init ==23)
+
+my_data %>% filter(k_Init ==24)
+dfKi24 <- my_data %>% filter(k_Init ==24)
+
+my_data %>% filter(k_Init ==25)
+dfKi25 <- my_data %>% filter(k_Init ==25)
+
+my_data %>% filter(k_Init ==26)
+dfKi26 <- my_data %>% filter(k_Init ==26)
+
+my_data %>% filter(k_Init ==27)
+dfKi27 <- my_data %>% filter(k_Init ==27)
+
+my_data %>% filter(k_Init ==28)
+dfKi28 <- my_data %>% filter(k_Init ==28)
+
+my_data %>% filter(k_Init ==29)
+dfKi29 <- my_data %>% filter(k_Init ==29)
+
+my_data %>% filter(k_Init ==30)
+dfKi30 <- my_data %>% filter(k_Init ==30)
+
+my_data %>% filter(k_Init ==31)
+dfKi31 <- my_data %>% filter(k_Init ==31)
+
+my_data %>% filter(k_Init ==32)
+dfKi32 <- my_data %>% filter(k_Init ==32)
+
+my_data %>% filter(k_Init ==33)
+dfKi33 <- my_data %>% filter(k_Init ==33)
+
+my_data %>% filter(k_Init ==34)
+dfKi34 <- my_data %>% filter(k_Init ==34)
+
+my_data %>% filter(k_Init ==35)
+dfKi35 <- my_data %>% filter(k_Init ==35)
+
+
+# Filtramos por nivel de K_t (en este caso está fijo a ==0)
+
+#Filtramos combinando un K_i con K_t fijo
+
+# K_t fijo a 0
+my_data %>% filter(k_Init ==1 & k_Turn)
+dfKi1 <- my_data %>% filter(k_Init ==1 | k_Turn)
+
+my_data %>% filter(k_Init ==2 & k_Turn)
+dfKi2 <- my_data %>% filter(k_Init ==2 | k_Turn)
+
+my_data %>% filter(k_Init ==3 & k_Turn)
+dfKi3 <- my_data %>% filter(k_Init ==3 | k_Turn)
+
+my_data %>% filter(k_Init ==4 & k_Turn)
+dfKi4 <- my_data %>% filter(k_Init ==4 | k_Turn)
+
+my_data %>% filter(k_Init ==5 & k_Turn)
+dfKi5 <- my_data %>% filter(k_Init ==5 | k_Turn)
+
+my_data %>% filter(k_Init ==6 & k_Turn)
+dfKi6 <- my_data %>% filter(k_Init ==6 | k_Turn)
+
+my_data %>% filter(k_Init ==7 & k_Turn)
+dfKi7 <- my_data %>% filter(k_Init ==7 | k_Turn)
+
+my_data %>% filter(k_Init ==8 & k_Turn)
+dfKi8 <- my_data %>% filter(k_Init ==8 | k_Turn)
+
+my_data %>% filter(k_Init ==9 & k_Turn)
+dfKi9 <- my_data %>% filter(k_Init ==9 | k_Turn)
+
+my_data %>% filter(k_Init ==10 & k_Turn)
+dfKi10 <- my_data %>% filter(k_Init ==10 | k_Turn)
+
+my_data %>% filter(k_Init ==11 & k_Turn)
+dfKi11 <- my_data %>% filter(k_Init ==11 | k_Turn)
+
+my_data %>% filter(k_Init ==12 & k_Turn)
+dfKi12 <- my_data %>% filter(k_Init ==12 | k_Turn)
+
+my_data %>% filter(k_Init ==13 & k_Turn)
+dfKi13 <- my_data %>% filter(k_Init ==13 | k_Turn)
+
+my_data %>% filter(k_Init ==14 & k_Turn)
+dfKi14 <- my_data %>% filter(k_Init ==14 | k_Turn)
+
+my_data %>% filter(k_Init ==15 & k_Turn)
+dfKi15 <- my_data %>% filter(k_Init ==15 | k_Turn)
+
+my_data %>% filter(k_Init ==16 & k_Turn)
+dfKi16 <- my_data %>% filter(k_Init ==16 | k_Turn)
+
+my_data %>% filter(k_Init ==17 & k_Turn)
+dfKi17 <- my_data %>% filter(k_Init ==17 | k_Turn)
+
+my_data %>% filter(k_Init ==18 & k_Turn)
+dfKi18 <- my_data %>% filter(k_Init ==18 | k_Turn)
+
+my_data %>% filter(k_Init ==19 & k_Turn)
+dfKi19 <- my_data %>% filter(k_Init ==19 | k_Turn)
+
+my_data %>% filter(k_Init ==20 & k_Turn)
+dfKi20 <- my_data %>% filter(k_Init ==20 | k_Turn)
+
+my_data %>% filter(k_Init ==21 & k_Turn)
+dfKi21 <- my_data %>% filter(k_Init ==21 | k_Turn)
+
+my_data %>% filter(k_Init ==22 & k_Turn)
+dfKi22 <- my_data %>% filter(k_Init ==22 | k_Turn)
+
+my_data %>% filter(k_Init ==23 & k_Turn)
+dfKi23 <- my_data %>% filter(k_Init ==23 | k_Turn)
+
+my_data %>% filter(k_Init ==24 & k_Turn)
+dfKi24 <- my_data %>% filter(k_Init ==24 | k_Turn)
+
+my_data %>% filter(k_Init ==25 & k_Turn)
+dfKi25 <- my_data %>% filter(k_Init ==25 | k_Turn)
+
+my_data %>% filter(k_Init ==26 & k_Turn)
+dfKi26 <- my_data %>% filter(k_Init ==26 | k_Turn)
+
+my_data %>% filter(k_Init ==27 & k_Turn)
+dfKi27 <- my_data %>% filter(k_Init ==27 | k_Turn)
+
+my_data %>% filter(k_Init ==28 & k_Turn)
+dfKi28 <- my_data %>% filter(k_Init ==28 | k_Turn)
+
+my_data %>% filter(k_Init ==29 & k_Turn)
+dfKi29 <- my_data %>% filter(k_Init ==29 | k_Turn)
+
+my_data %>% filter(k_Init ==30 & k_Turn)
+dfKi30 <- my_data %>% filter(k_Init ==30 | k_Turn)
+
+my_data %>% filter(k_Init ==31 & k_Turn)
+dfKi31 <- my_data %>% filter(k_Init ==31 | k_Turn)
+
+my_data %>% filter(k_Init ==32 & k_Turn)
+dfKi32 <- my_data %>% filter(k_Init ==32 | k_Turn)
+
+my_data %>% filter(k_Init ==33 & k_Turn)
+dfKi33 <- my_data %>% filter(k_Init ==33 | k_Turn)
+
+my_data %>% filter(k_Init ==34 & k_Turn)
+dfKi34 <- my_data %>% filter(k_Init ==34 | k_Turn)
+
+my_data %>% filter(k_Init ==35 & k_Turn)
+dfKi35 <- my_data %>% filter(k_Init ==35 | k_Turn)
+
+
+# Iniciamos librerias
+library ("ggplot2")
+library("dplyr")
+
+# Gráfico curvas FPR + FNR
+
+plot30001 <-ggplot()+
+ # curva FNR
+    ggtitle ("Exp1. Curva FNR") +
+    geom_smooth (data=dfKi1, aes(x=AvFNR, y=Davg), fill="#FF4000", color="#FF4000", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+    scale_x_continuous(limits = c(0, 1))+
+    geom_smooth (data=dfKi2, aes(x=AvFNR, y=Davg), fill="#DF0174", color="#DF0174", size=1)+
+    scale_y_continuous(limits = c(0, 2)) +
+    scale_x_continuous(limits = c(0, 1)) +
+    geom_smooth (data=dfKi3, aes(x=AvFNR, y=Davg), fill="#FF00FF", color="#FF00FF", size=1)+
+    scale_y_continuous(limits = c(0, 2)) +
+   scale_x_continuous(limits = c(0, 1)) +
+    geom_smooth (data=dfKi4, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+  geom_smooth (data=dfKi5, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi6, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi7, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi8, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi9, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi10, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi11, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi12, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi13, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi14, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi15, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+ geom_smooth (data=dfKi16, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+  geom_smooth (data=dfKi17, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+     geom_smooth (data=dfKi18, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+   geom_smooth (data=dfKi19, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+    geom_smooth (data=dfKi20, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi21, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi22, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi23, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi24, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi25, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi26, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+    geom_smooth (data=dfKi27, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+        geom_smooth (data=dfKi28, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+    geom_smooth (data=dfKi29, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+    geom_smooth (data=dfKi30, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+  geom_smooth (data=dfKi31, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi32, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi33, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi34, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi35, aes(x=AvFNR, y=Davg), fill="#F7819F", color="#F7819F", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+     scale_x_continuous(limits = c(0, 1))
+
+
+
+
+
+
+
+
+print(plot30001)   
+
+
+
+plot123 <-ggplot()+
+    # curva FPR
+    ggtitle ("Exp.1 Curva FPR ") +
+    geom_smooth (data=dfKi1, aes(x=AvFPR, y=Davg), fill="#D8F781", color="#D8F781", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))+
+      geom_smooth (data=dfKi2, aes(x=AvFPR, y=Davg), fill="#64FE2E", color="#64FE2E", size=1)+
+    scale_y_continuous(limits = c(0, 2)) +
+  scale_x_continuous(limits = c(0, 1)) +
+    geom_smooth (data=dfKi3, aes(x=AvFPR, y=Davg), fill="#01DF3A", color="#01DF3A", size=1)+
+    scale_y_continuous(limits = c(0, 2)) +
+scale_x_continuous(limits = c(0, 1)) +
+      geom_smooth (data=dfKi4, aes(x=AvFPR, y=Davg), fill="#00FFBF", color="#00FFBF", size=1)+
+    scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))+
+  geom_smooth (data=dfKi5, aes(x=AvFPR, y=Davg), fill="#00FFBF", color="#00FFBF", size=1)+
+    scale_y_continuous (limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+
+print(plot123)   
+
+# Scatterplot FPR+FNR separados por nivel de K_i y K_t
+
+plot0011 <-ggplot() +
+      # dfKi1
+      geom_point( data=dfKi1 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=1 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0011)
+
+
+plot0022 <-ggplot() +
+      # dfKi2
+      geom_point( data=dfKi2 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=2 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0022)
+
+plot0033 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=3 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0033)
+
+plot0044 <-ggplot() +
+      # dfKi4
+      geom_point( data=dfKi4 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=4 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0044)
+
+plot0055 <-ggplot() +
+      # dfKi5
+      geom_point( data=dfKi5 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=4 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0055)
+
+plot0066 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=6 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0066)
+
+plot0077 <-ggplot() +
+      # dfKi7
+      geom_point( data=dfKi7 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=7 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0077)
+
+plot0088 <-ggplot() +
+      # dfKi8
+      geom_point( data=dfKi8 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=8 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0088)
+
+plot0099 <-ggplot() +
+      # dfKi9
+      geom_point( data=dfKi9 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=9 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0099)
+
+plot0100 <-ggplot() +
+      # dfKi10
+      geom_point( data=dfKi10 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=10 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0100)
+
+plot0111 <-ggplot() +
+      # dfKi11
+      geom_point( data=dfKi11 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=11 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0111)
+
+plot0112 <-ggplot() +
+      # dfKi12
+      geom_point( data=dfKi12 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=12 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0112)
+
+plot0113 <-ggplot() +
+      # dfKi13
+      geom_point( data=dfKi13 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=13 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0113)
+
+plot0114 <-ggplot() +
+      # dfKi14
+      geom_point( data=dfKi14 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=14 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0114)
+
+plot0115 <-ggplot() +
+      # dfKi17
+      geom_point( data=dfKi17 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=17 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0115)
+
+plot0116 <-ggplot() +
+      # dfKi16
+      geom_point( data=dfKi16 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=16 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0116)
+
+plot0117 <-ggplot() +
+      # dfKi17
+      geom_point( data=dfKi17 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=17 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0117)
+
+plot0118 <-ggplot() +
+      # dfKi18
+      geom_point( data=dfKi18 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=18 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0118)
+
+plot0119 <-ggplot() +
+      # dfKi19
+      geom_point( data=dfKi19 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=19 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0119)
+
+plot0120 <-ggplot() +
+      # dfKi20
+      geom_point( data=dfKi20 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=20 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0120)
+
+plot0121 <-ggplot() +
+      # dfKi21
+      geom_point( data=dfKi20 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=21 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0121)
+
+plot0122 <-ggplot() +
+      # dfKi22
+      geom_point( data=dfKi22 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=22 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0122)
+
+plot0123 <-ggplot() +
+      # dfKi23
+      geom_point( data=dfKi23 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=23 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0123)
+
+plot0124 <-ggplot() +
+      # dfKi24
+      geom_point( data=dfKi24 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=24 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0124)
+
+plot0125 <-ggplot() +
+      # dfKi25
+      geom_point( data=dfKi25 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=25 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0125)
+
+plot0126 <-ggplot() +
+      # dfKi26
+      geom_point( data=dfKi26 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=26 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0126)
+
+plot0127 <-ggplot() +
+      # dfKi27
+      geom_point( data=dfKi27 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=27 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0127)
+
+plot0128 <-ggplot() +
+      # dfKi28
+      geom_point( data=dfKi28 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=28 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0128)
+
+plot0129 <-ggplot() +
+      # dfKi29
+      geom_point( data=dfKi29 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=29 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0129)
+
+plot0130 <-ggplot() +
+      # dfKi30
+      geom_point( data=dfKi30 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=30 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0130)
+
+plot0131 <-ggplot() +
+      # dfKi31
+      geom_point( data=dfKi31 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=31 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0131)
+
+plot0132 <-ggplot() +
+      # dfKi32
+      geom_point( data=dfKi32 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=32 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+      scale_x_continuous(limits = c(0, 1))
+
+print(plot0132)
+
+
+plot0133 <-ggplot() +
+      # dfKi33
+      geom_point( data=dfKi33 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=33 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0133)
+
+plot0134 <-ggplot() +
+      # dfKi34
+      geom_point( data=dfKi34 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=34 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0134)
+
+plot0135 <-ggplot() +
+      # dfKi35
+      geom_point( data=dfKi35 , aes(x=AvFNR, y=AvFPR, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green")+
+      ggtitle("K_i=35 | k_t=0") +
+      scale_y_continuous(limits = c(0, 2))+
+  scale_x_continuous(limits = c(0, 1))
+
+print(plot0135)
+
+
+
+
+
+
+
+```
+
+

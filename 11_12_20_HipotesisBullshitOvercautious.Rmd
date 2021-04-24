@@ -1,0 +1,862 @@
+---
+title: "Bullshit vs. Overcautiousness"
+output: html_notebook
+---
+
+## Hipótesis
+
+Estudio por simulación sobre la relación entre cautelosidad y calidad de los consensos en el contexto de los procesos de toma de decisiones colectivos basados en argumentación con resource bounded agents:
+
+**Desarrollo de la hipótesis: **
+
+* https://docs.google.com/document/d/1n4ig4HQdxnBzztMjw3eq8KfVmEn8kdPPv3JxE4CP8bA/edit?usp=sharing
+
+
+**Puntos principales:**
+
+*  Bullshit afecta más negativamente a la calidad de los consensos que Overcautious aunque Overcautious puede hacer que se pierdan perlitas muy valiosas. 
+
+*  La métrica para modelar Bullshit y Overcautious es el *FP/FN Average*: i.e, un promedio de los falsos positivos o falsos negativos emitidos por los agentes. Es una métrica que modela la Resource Boundedness de los agentes asumiendo que en los procesos de negociación estos disponen de una de las dos semánticas PAF: (R)= Bullshit(Falsos Negativos) o (RI)=Overcautiousness (Falsos Positivos). En este contexto, se utilizará esta métrica para determinar si el bullshit (i.e., promedio de falsos negativos) afecta más a la calidad de los consenso que la overcautiousness (i.e., promedio de falsos positivos), y también para comprobar que pese a ser menos nociva que la Bullshit, overcautiousness también afecta negativamente a la calidad de los consensos. 
+
+* Próximos pasos: ¿ Cómo se podría revertir este efecto de la RB (cautelosidad) a través de por ejemplo la confianza para evitar que este fenómeno afecte de una manera tan directa la calidad de los consensos colectivos.
+
+
+## 1. Modelo/problema  para demostrar la hipótesis
+
+Se simula un proceso de toma de decisiones colectivas por consenso modelado a través de un sistema multiagente argumentativo basado en negociación. Se busca -a través del modelado- representar contextos de toma de decisiones humanos (i.e., mínimamente antrocomplejos) para poder analizarlos de manera sistemática y como problemas computacionales.
+
+
+Para ello el enfoque propuesto es el siguiente: 
+
+*  Así, en primer lugar se ejecuta una simulación de diálogo sin Resource Boundedness (TAF) para poder inferir cual es la decisión óptima. A continuación se ejecuta el mismo diálogo con agentes RB y se compara la decisión alcanzada con el diálogo sin RB.
+
+Existen 3 valores para medir la calidad de la decisión en uncontexto de Resource Boundedness: 0=no consenso, 1= consenso subóptimo (i..e, diferente del obtenido sin RB), 2= consenso óptimo (i.e., igual que el obtenido sin RB).
+
+En la sección **Modelos de diálogos** se describe más detalladamente las diferencias entre los dos modelos de diálogos y las métricas utilizadas: uB (utterance Bullshit) y uO (utterance Overcautious)
+
+
+## Parámetros: 
+
+*  **Agents**= número de agentes
+*  **Goals**= número de goals que tiene cada agente
+*  **Alternatives**= número de alternativas disponibles en la negocación
+*  **Ap** = max. argumentos prácticos por agente
+*  **Ep**= max. argumentos epistémicos por agente
+* **d**: Densidad de ataque entre argumentos
+* **O_t**: (Orden de turnos en el dialogo) es aleatorio, se corre mil veces y aparecen todas posibles configuraciones de turnos. podemos trazar la posición..
+* **O_p**: (Orden de preferencia de speech acts validos p/c/agente en c/turno): en cada turno del diálogo el agente debe elegir entre los diferentes speech acts posible ej., argue o challenge. Se corre mil veces para tener todas las posibles configuraciones.
+* **K_i**: (Nivel de Resource boundedness inicial):numero de ataques que puede procesar el agente de su estado inicial.
+* **K_t**: (Nivel de Resource Boundedness por turno): número de ataques que puede procesar el agente de su base de conocimineto inicial (i..e, antes de empezar el diálogo).
+* **N**: Número de agentes con semántica R (bullshiters).
+* **N_I**: Número de agentes con Semántica RI (overcautious).
+
+```{r}
+# No implementados #
+
+* **A_i**: (Distribución de argumentos que cada agente tiene). Por ahora se genera aleatoreamiente y los agentes no comparten ningún argumento. Este parámetro sirve para analizar situaciones donde los agentes comparten algunos argumentos en sus bases de conocimineto antes de empezar el diálogo.
+* **P_i**: (Configuración de preferencias). Por ahora es una configuración aleatória y puede ser que los agentes compartan algunos goals.
+* **Nuevas métricas**=> en lugar de partir del número de falsos positivos/negativos, se registran el número de utterances que son bullshit (uB) y el número de utterances que son overcautiousness (uO). El objetivo de esta nueva métrica es mejorar la precisión. Es decir, comprobar que la calidad del consenso se ve afectado por el número de utterances emitidas en el diálogo que efectivamente son uB/uO y no por el promedio de FP/FN.
+```
+
+## Métrica: FPR/FNR (rate)
+
+El hecho de que exista RB (i.e., el conjunto I) hace que en función de la semántica que usen los agentes para modelar una actitud u otra (bullshit/overcautiosness) puedan tener casos de falsos positivos o falsos negativos, es decir que fallen (debido a la semántica impuesta) asignando las relaciones entre pares de argumentos inciertas.
+
+Así cuando los agentes usan la **semántica R**, estos son susceptibles a **falsos negativos**: es decir asignan I a N* asumiendo que no hay ataques entre argumentos cuando en realidad I o parte de I pertenece a R* (i.e., sí que existen ataques).
+
+Por otro lado, cuando los agentes usan la **semántica RI**, estos son susceptibles a **falsos positivos**: es decir asignan I a R* asumiendo que hay ataques entre argumentos cuando en realidad I  o parte de I pertenece a N* (i.e., no existen ataques).
+
+## Modelos de diálogos
+
+
+## 1. Modelo de diálogo sin antrocomplejidad (TAFs)
+
+Decimos que el modelo de diálogo de Amgoud es **(adecuadamente) cauteloso** en el contexto de un AF (i.e., sin Resource Boundedness). Es decir, cuando no hay antrocomplejidad como en el caso de los AF, los agentes sólo emiten argumentos verdaderos (i.e., que son aceptables) y nunca emiten bulshit (i.e., argumentos no aceptables). Además, a parte de no emitir nunca bullshit, el protocolo de diálogo sin limitación de recursos tampoco deja de emitir argumentos verdaderos (las perlitas), por lo que tampoco es sobrecauteloso.
+
+
+```{r}
+# No implementado: es un elemento de las nuevas métricas uB/u0 #
+
+* **Definición:** Llamamos TAF+ o Total Argumentation Framework al argumentation framework no distribuido y sin resource-boundeness. i.e.,al conjunto completo de argumentos disponible.
+```
+
+* **Definición:** Llamamos TAF (Total Argumentation Framework) al argumentation framework local de cierto agente sin resource-boundedness. (i.e., al conjunto individual de argumentos disponible).
+
+## 2. Modelo de diálogo con antrocomplejidad (PAFs)
+
+Para introducir la antrocomplejidad (desde una perspectiva de la resource boundedness), en lugar de usar el framework de argumentación de Dung (AF) se hace uso de PAFs, lo que permite introducir incertidumbre. En este contexto en función de la semántica utilizada (R o RI) el modelo de diálogo permite que los agentes puedan tener una actitud bullshiter (i.e., que emitan argumentos que no serían aceptables en un TAF) o sobrecautelosa (i.e., que dejen de emitir argumentos verdaderos que no se omitirían en un TAF=> las perlitas).
+
+En este contexto dado un argumento U de cierto agente, decimos que U es una uterancia cuando ha sido emitido por un Argue(U) en el PAF, i.e., es aceptable por alguna de las semánticas de PAF ( i.e., R o RI).
+
+Esta uterancia puede definirse como:
+
+*  **Bullshit:** "cuando el PAF local acepta U pero en realidad no es aceptable (en el TAF+)", es decir, si U ha sido emitido porque fue seleccionado al azar por algún agente en su turno y lo aceptó para emitirlo porque operaba con semántica R de PAF.  Esta U-bullshit se cuenta una sola vez por dialogo=> i.e., queremos estudiar cómo el número de U-bullshits e U-sonbrecautelosas afectan a la calidad de las decisiones colectivas, para ello listaremos el número de U-B y U-S que aparecen en cada diálogo y mediremos como estas afectan a la calidad de la decisión.
+
+*  **Overcautiousness:** "cuando el PAF local acepta U pero en realidad no es aceptable (en el TAF+)", es decir, si U ha sido emitido porque fue seleccionado al azar por algún agente en su turno y lo aceptó para emitirlo porque operaba con semántica R de PAF.  Esta U-bullshit se cuenta una sola vez por dialogo=> i.e., queremos estudiar cómo el número de U-bullshits e U-sonbrecautelosas afectan a la calidad de las decisiones colectivas, para ello listaremos el número de U-B y U-S que aparecen en cada diálogo y mediremos como estas afectan a la calidad de la decisión.
+
+
+```{r}
+# No implementado #
+
+*  **Global Overcautious/Wrongfullycautious:** "cuando U es aceptable de acuerdo a TAF+ pero el PAF nunca tuvo la oportunidad de elegirlo", es decir, en ningún turno, de ningún agente durante el diálogo con resource-boundeness esta U ha sido aceptable por el PAF (debido a la semántica RI) del agente en ese turno.
+
+*  **Local Overcautious/Wrongfullycautious:** "cuando U ha sido emitido por algun TAF pero el PAF nunca tuvo la oportunidad de elegirlo", es decir, si U ha sido emitido en un dialogo sin resource boundedness por al menos un agente, osea, ha sido seleccionado y era aceptable por el TAF; pero en ningún turno, de ningún agente durante el diálogo con resource-boundeness ha sido aceptable por el PAF (debido a la semántica RI) del agente en ese turno.
+```
+
+##Experiento 1 (m8.txt)
+
+## Parámetros: 
+
+*  **Agents**= 8
+*  **NegoTAF**=10
+*  **NegoPAF**=10
+*  **Goals**= 2
+*  **Alternatives**= 3
+*  **Ap** = max. 3
+*  **Ep**= max. 2
+* **d**: 0.8
+* **K_i**: [6] #el máximo de relaciones de ataque son 7
+* **K_t**: [1]
+* **N_R**: [0:8]
+* **N_I**:[8:0]
+
+
+```{r}
+
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+
+data.frame(m8)
+my_data <- as_tibble(m8)
+
+dfKi6 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+#k_i= 6| k_t= 2
+g1 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("K_i=6 | k_t=1") 
+    
+print(g1)
+
+```
+
+##Experiento 2 (m9.txt)
+
+## Parámetros: 
+
+*  **Agents**= 8
+*  **NegoTAF**=20
+*  **NegoPAF**=20
+*  **Goals**= 2
+*  **Alternatives**= 3
+*  **Ap** = max. 3
+*  **Ep**= max. 2
+* **d**: 0.8
+* **K_i**: [3,6]
+* **K_t**: [1]
+* **N_R**: [0:8]
+* **N_I**:[8:0]
+
+```{r}
+
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+
+data.frame(m9)
+my_data <- as_tibble(m9)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t2 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+g2 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("K_i=3 | k_t=1") 
+    
+print(g2)
+
+#k_i= 6| k_t= 1
+g3 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6t2 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("K_i=6 | k_t=1") 
+    
+print(g3)
+
+```
+
+
+##Experiento GOALS (2goals.txt)
+
+**  Se va a comparar las métricas del mismo contexto aumentando el número de goals de cada agente [2,3,4] 
+
+## Parámetros: 
+
+*  **Agents**= 5
+*  **NegoTAF**=20
+*  **NegoPAF**=20
+*  **Goals**= [2,3,4]
+*  **Alternatives**= 3
+*  **Ap** = max. 3
+*  **Ep**= max. 2
+* **d**: 0.8
+* **K_i**: [3,6]
+* **K_t**: [1]
+* **N_R**: [0:8]
+* **N_I**:[8:0]
+
+```{r}
+
+#2 GOALS
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+library("gridExtra")
+
+data.frame(goals2)
+my_data <- as_tibble(goals2)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t1 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+gls2 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("2G- Ki3") 
+    
+print(gls2)
+
+#k_i= 6| k_t= 1
+gls3 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("2G - Ki6") 
+    
+print(gls3)
+
+grid.arrange(gls2, gls3, ncol=2)
+
+```
+
+```{r}
+
+#3 GOALS
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+
+data.frame(goals3)
+my_data <- as_tibble(goals3)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t1 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+gls4 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("3G - Ki3") 
+    
+print(gls4)
+
+#k_i= 6| k_t= 1
+gls5 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("3G - Ki6") 
+    
+print(gls5)
+
+grid.arrange(gls4, gls5, ncol=2)
+
+
+```
+
+```{r}
+
+#4 GOALS
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+
+data.frame(goals4)
+my_data <- as_tibble(goals4)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t1 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+gls6 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("4G - Ki3") 
+    
+print(gls6)
+
+#k_i= 6| k_t= 1
+gls7 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("4G - Ki6") 
+    
+print(gls7)
+
+grid.arrange(gls6, gls7, ncol=2)
+
+
+```
+
+
+```{r}
+
+#5 GOALS
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+
+data.frame(goals5)
+my_data <- as_tibble(goals5)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t1 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+gls8 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("5G - Ki3") 
+    
+print(gls8)
+
+#k_i= 6| k_t= 1
+gls9 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("5G - Ki6") 
+    
+print(gls9)
+
+grid.arrange(gls8, gls9, ncol=2)
+
+
+```
+
+
+```{r}
+
+#6 GOALS
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+
+data.frame(goals6)
+my_data <- as_tibble(goals6)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t1 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+gls10 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("6G - Ki3") 
+    
+print(gls10)
+
+#k_i= 6| k_t= 1
+
+gls11 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("6G - Ki6") 
+    
+print(gls11)
+
+grid.arrange(gls10, gls11, ncol=2)
+
+
+```
+
+```{r}
+
+#7 GOALS
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+
+data.frame(goals7)
+my_data <- as_tibble(goals7)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t1 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+gls12 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("7G - Ki6") 
+    
+print(gls12)
+
+#k_i= 6| k_t= 1
+gls13 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("7G - Ki6") 
+    
+print(gls13)
+
+grid.arrange(gls12, gls13, ncol=2)
+
+
+```
+
+
+```{r}
+
+#8 GOALS
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+
+data.frame(goals8)
+my_data <- as_tibble(goals8)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t1 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+gls14 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("8G - Ki6") 
+    
+print(gls14)
+
+#k_i= 6| k_t= 1
+gls15 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("8G - Ki6") 
+    
+print(gls15)
+
+grid.arrange(gls14, gls15, ncol=2)
+
+
+```
+
+```{r}
+
+#9 GOALS
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+
+data.frame(goals9)
+my_data <- as_tibble(goals9)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t1 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+gls16 <-ggplot() +
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("9G - Ki3") 
+    
+print(gls16)
+
+#k_i= 6| k_t= 1
+gls17 <-ggplot() +
+      # dfKi6
+      geom_point( data=dfKi6t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("9G - Ki6") 
+    
+print(gls17)
+
+grid.arrange(gls16, gls17, ncol=2)
+
+```
+
+
+```{r}
+
+#10 GOALS
+# Scatterplot métrica AvFPR(y) + AvFNR(x) separados por nivel de K_i y K_t
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+library("ggdark")
+
+data.frame(goals10)
+my_data <- as_tibble(goals10)
+
+dfKi3t1 <- my_data %>% filter(k_Init ==3) #filtro por nivel de k_i=3
+dfKi6t1 <- my_data %>% filter(k_Init ==6) #filtro por nivel de k_i=6
+
+
+#k_i= 3| k_t= 1
+gls18 <-ggplot() + dark_theme_gray()+
+      # dfKi3
+      geom_point( data=dfKi3t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("10G-Ki3") 
+    
+print(gls18)
+
+#k_i= 6| k_t= 1
+gls19 <-ggplot() + dark_theme_gray()+
+      # dfKi6
+      geom_point( data=dfKi6t1 , aes(x=FN, y=FP, colour=Davg)) + 
+      scale_colour_gradient(low = "red", high = "green", limits = c(0, 2))+
+      ggtitle("10G-ki6") 
+    
+print(gls19)
+
+grid.arrange(gls18, gls19, ncol=2)
+
+```
+
+
+```{r}
+
+library("ggplot2")
+library("dplyr")
+library("tidyverse")
+library("gridExtra")
+library("cowplot")
+library("ggdark")
+
+
+plot_grid(gls2, gls4, gls6, gls8, gls10, gls12, gls14, gls16, gls18)
+
+
+
+grid.arrange(gls2, gls4, gls6, gls8, gls10, gls12, gls14, gls16, gls18)
+
+```
+
+
+Bullshitness level
+
+* propuesta para unificar 
+
+```{r}
+
+#creamos un vector con todos los valores de Davg en todos los contextos (G2...G10) lo vamos usar como eje x del histograma
+
+Davg10 <-goals10$Davg
+#compruebo que se ha creado bien en cada una de las variables
+print(Davg10)
+
+Davg09 <-goals9$Davg
+print(Davg09)
+
+Davg08 <-goals8$Davg
+print(Davg08)
+
+Davg07 <-goals7$Davg
+print(Davg07)
+
+Davg06 <-goals6$Davg
+print(Davg06)
+
+Davg05 <-goals5$Davg
+print(Davg05)
+
+Davg04 <-goals4$Davg
+print(Davg04)
+
+Davg03 <-goals3$Davg
+print(Davg03)
+
+Davg02 <-goals2$Davg
+print(Davg02)
+
+#creo una variable que contenga el total de valores esperados de la Davg (es la que voy a graficar en el histograma)
+
+totalDavg <- c(Davg02, Davg03, Davg04, Davg05, Davg06, Davg07, Davg08, Davg09, Davg10)
+
+
+
+#calcularmos el valor esperado de Davg en cada contexto [DavgG2, DavgG3,..., Davg10]
+
+pDavg10 <-goals10$Davg*0.333
+#compruebo que se ha creado bien en cada una de las variables
+print(pDavg10)
+
+pDavg09 <-goals9$Davg*0.333
+print(pDavg09)
+
+pDavg08 <-goals8$Davg*0.333
+print(pDavg08)
+
+pDavg07 <-goals7$Davg*0.333
+print(pDavg07)
+
+pDavg06 <-goals6$Davg*0.333
+print(pDavg06)
+
+pDavg05 <-goals5$pDavg*0.333
+print(pDavg05)
+
+pDavg04 <-goals4$pDavg*0.333
+print(pDavg04)
+
+pDavg03 <-goals3$pDavg*0.333
+print(pDavg03)
+
+pDavg02 <-goals2$pDavg*0.333
+print(pDavg02)
+
+
+#creo una variable que contenga el total de valores esperados de la Davg (es la que voy a graficar en el histograma)
+
+totalpDavg <- c(pDavg02, pDavg03, pDavg04, pDavg05, pDavg06, pDavg07, pDavg08, pDavg09, pDavg10)
+ 
+#Grafico en forma de histograma la totalDavg (i.e, distribución de probabilidad de los valores esperados de la métrica Davg para contextos de [2goals:10goals])
+
+library(tidyverse)
+library(ggplot2)
+h<-hist(totalpDavg)
+text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))+
+geom_density(alpha=.2, fill="#FF6666") 
+
+
+new.df <- data.frame(totalpDavg)
+ggplot(new.df, aes(x=totalpDavg)) + 
+ geom_histogram(aes(y=..density..), colour="black", fill="white")+
+ geom_density(alpha=.2, fill="#FF6666") 
+
+
+
+```
+
+```{r}
+#Hago lo mismo con FP y FN un vector de los valores esperados
+
+FP02 <-goals2$FP*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FP02)
+
+FP03 <-goals3$FP*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FP03)
+
+FP04 <-goals4$FP*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FP04)
+
+FP05 <-goals5$FP*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FP05)
+
+FP06 <-goals6$FP*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FP06)
+
+FP07 <-goals7$FP*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FP07)
+
+FP08 <-goals8$FP*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FP08)
+
+FP09 <-goals9$FP*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FP09)
+
+FP10 <-goals10$FP*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FP10)
+
+
+#creo una variable que contenga el total de valores esperados de la Davg (es la que voy a graficar en el histograma)
+
+totalFP <- c(FP02, FP03, FP04, FP05, FP06, FP07, FP08, FP09, FP10)
+print(totalFP)
+
+#Grafico en forma de histograma la totalDavg (i.e, distribución de probabilidad de los valores esperados de la métrica Davg para contextos de [2goals:10goals])
+
+library(tidyverse)
+library(ggplot2)
+h<-hist(totalFP)
+text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))+
+geom_density(alpha=.2, fill="#FF6666") 
+
+#ggplot2::geom_histogram(data=totalDavg, xName='totalDavg',
+      #  groupName='totalFP', legendPosition="top")
+
+#ggplot2.histogram()
+
+#ggplot2.histogram(data=totalDavg, xName='totalDavg',       groupName='totalFP', legendPosition="top")
+
+```
+
+```{r}
+
+#Hago lo mismo con FN un vector de los valores esperados
+
+FN10 <-goals10$FN*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FN10)
+
+FN09 <-goals9$FN*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FN09)
+
+FN08 <-goals8$FN*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FN08)
+
+FN07 <-goals7$FN*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FN07)
+
+FN06 <-goals6$FN*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FN06)
+
+FN05 <-goals5$FN*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FN05)
+
+FN04 <-goals4$FN*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FN04)
+
+FN03 <-goals3$FN*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FN03)
+
+FN02 <-goals2$FN*0.5
+#compruebo que se ha creado bien en cada una de las variables
+print(FN02)
+
+
+#creo una variable que contenga el total de valores esperados de la Davg (es la que voy a graficar en el histograma)
+
+totalFN <- c(FN02, FN03, FN04, FN05, FN06, FN07, FN08, FN09, FN10)
+print(totalFN)
+
+library(tidyverse)
+library(ggplot2)
+h<-hist(totalFN)
+text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))+
+geom_density(alpha=.2, fill="#FF6666") 
+
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library("ggdark")
+
+
+#Create data
+new.df <- data.frame(fake=c (totalFP, totalFN), totalDavg) 
+str(new.df)
+
+# First distribution
+hist(totalFN, col=rgb(1,0,0,0.5), xlab="totalDavg", 
+     ylab="counts", main="d" )
+
+# Second with add=T to plot on top
+hist(totalFP, col=rgb(0,0,1,0.5), add=T)
+
+# Add legend
+legend("topright", legend=c("totalFN","totalFP"), col=c(rgb(1,0,0,0.5), 
+     rgb(0,0,1,0.5)), pt.cex=2, pch=15 )
+
+#segundo gráfico
+ggplot(data=new.df, aes(x=fake, fill=)) +
+  dark_theme_gray()+
+    geom_histogram( color="#e9ecef", alpha=0.6) 
+
+
+
+```
+
+```{r}
+
+# Build dataset with different distributions
+new.df <- data.frame( totalFP, totalFN, totalDavg
+)
+
+# Represent it
+p <- new.df %>%
+  ggplot( aes(x= totalFN)) +
+    geom_histogram( color="red", alpha=0.6, bins = 12) +
+      labs(fill="")
+print(p)
+
+
+```
+
+```{r}
+
+library("ggplot2")
+set.seed(19191)                                      # Create example data with group
+data2 <- data.frame(x = totalDavg,
+                    group = c(totalFN,totalFP))
+ggplot(data2, aes(x = totalDavg, fill = group)) +            # Draw two histograms in same plot
+  geom_histogram(alpha = 0.5, position = "identity")
+
+```
