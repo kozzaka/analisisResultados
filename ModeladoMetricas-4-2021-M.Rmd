@@ -1,0 +1,193 @@
+---
+title: "Bullshit y Overcautiousness: visualización de resultados, variables, métricas y modelado"
+output: html_notebook
+---
+
+El objetivo principal es mostrar de manera visual que la hipótesis planteada se cumple (i.e., no es nula):
+
+  + HIPÓTESIS: **Bullshit y overcautiousness **, son dos factores antrocomplejos (i.e., atribuibles a la naturaleza del comportamiento humano) que __influyen de manera negativa en la calidad de las decisiones colectivas__ tomadas por consenso en grupos humanos. Es decir, que estos comportamientos perjudican la calidad de las decisiones hasta el punto que pueden llegar a impedir que se produzcan procesos de toma de decisiones colectivos exitosos bajo ciertas configuraciones.
+
+  + SUB-HIPÓTESIS (1): Además, aunque ambos factores (Bullshit y Overcautiousness) influyen de manera negativa en la calidad de las decisiones, se apunta a que **Bullshit es significativamente maś perjudicial**. De manera que es posible ordenar estos dos factores por nivel de afectación o peligrosidad (en términos de la calidad de la decisión). [Bullshit>Overcautiousness].
+
+
+  + Para demostrar que la hipótesis se cumple, vamos a simular situaciones de diálogos argumentativos de agentes con Resource Boundedness que adoptan estos comportamientos (factores de influencia) utilizando **2 enfoques de modelado** diferentes, que vamos a implementar en **diferentes contextos**. A continuación, se describen las variables y modelos de diálogos argumentativos usados para el modelado(AF/PAF y enfoques), así como las métricas usadas para medir el nivel de influencia de los factores y también el nivel de calidad de las decisiones.
+
+
+## 1. Descripción de las variables, métricas y modelado
+
+
+Las diferentes variables utilizadas para modelar un diálogo argumentativo "mínimamente antrocomplejo" son las siguientes. Se ordenan en función de su categoría: 
+
+
+### Variables: 
+
+
+* **Variables de control** 
+
+
+  +  **NUM_AGENTS_R**: Número de agentes con semántica R [int]
+  +  **NUM_AGENTS_RI**: Número de agentes con semántica RI [int]
+
+```{r}
+#Variables de control
+
+La semánticas (R/RI) son la única variable de control directa, se utilizan en los PAF para definir cuantos agentes adoptaran comportamientos bullshiters u overcautious (i.e., sirven para definir el nivel de Bullshit y de Overcautiousness en un contexto Resource Boundedness)
+  
+  
+```  
+
+
+* **Variables de contexto** 
+
+
+  +  **NUMBER_AGENTS**: Número de agentes [int]
+  +  **ALTERNATIVES_NUMBER**: Número de alternativas disponibles en la negociación [int]
+  +  **MAXIMUM_NUMBER_PRACTICAL_ARGUMENTS**: Número máximo de argumentos prácticos por agente [int]
+  +  **MAXIMUM_NUMBER_EPISTEMIC_ARGUMENTS**: Número máximo de argumentos epistémicos por agente [int]
+  +  **MAXIMUM_ATTACKS_DENSITY_VALUE**: Nivel de densidad de ataque entre argumentos [double 0*1]
+  +  **N**: Número de iteraciones del diálogo [int]
+  +  **RESOURCE_BOUNDEDNESS_DENSITY**: Densidad de Resource Boundedness por agentes [double 0*1]
+  +  **STEP**: Pasos para muestrar el número de agentes negociadores con semánticas R y RI [int]
+
+
+
+```{r}
+#Variables de contexto
+
+Las variables de contexto sirven para modelar las diferentes situaciones dónde tienen lugar estos diálogos argumentativos con agentes Resource Boundedness, y por lo tanto para explorar si los factores ambientales (i.e., de contexto como por ejemplo la escalabilidad, el nivel de Resource_Boundedness o el nivel de Attack_density)tienen influencia en las consecuencias de los comportamientos bullshiter/overcautious en términos de la calidad de la decisión. Es decir, si estos tienen los mismos efectos bajo cualquier contexto o existen zonas *outliers* donde no se cumplen las consecuencias esperadas (i.e., que estos comportamientos afectan negativamente la calidad de la decisión).
+
+#Desaparece K_i + K_t + Número_goals
+
+*K_i: Nivel de Resource Boundedness Inicial (i.e., antes de empezar el diálogo)
+*K_t: Nivel de Resource Boundedness en Turno (i.e., en cada turno del diálogo)
+
+*Número_goals: Número de goals que tiene cada agente como variable parametrizable para explorar su relación con la calidad de la decisión
+
+
+#No implementadas: 
+* A_i: (Distribución de argumentos que tiene cada agente). Por ahora se genera aleatoreamiente y los agentes no comparten ningún argumento. Esta variable serviría para analizar situaciones donde los agentes comparten diferentes proporciones de su base de conocimiento (definida en número de argumentos) de manera controlable antes de empezar el diálogo y explorar si existe un threshold a partir del cuál es difícil alcanzar consensos de calidad (Sub-hipótesis), o  si existen *argumentos clave* más allá de la proporción de bbcc compartida. Es decir, que a pesar de compartir un 80% de los argumentos el no disponer de un *argumento clave* hace que no sea significativo compartir un porcentaje elevado de argumentos.
+
+* P_i: (Configuración de preferencias). Por ahora es una configuración aleatória y puede ser que los agentes compartan algunos goals. Esta variable permitiría analizar contextos donde los agentes comparten diferentes proporciones de sus drivers (definido en número de goals compartidos) y explorar si existe un threshold a partir del cuál es difícil alcanzar consensos de calidad (Sub-hipótesis).
+```  
+
+
+
+### Métricas: 
+
+* **Métricas de monitoreo**
+  +  **TIME_NEG_MEAN**: Promedio del tiempo que demora una negociación (i.e., alcanzar un consenso)
+  +  **TIME_NEG_STD**: Desviación estándard del promedio del tiempo que demora una negociación
+
+* **Métricas de control**
+
+  +  **METRIC_D**: Métrica que describe la calidad de la decisión [2:consenso óptimo>1:consenso sub-óptimo>0:no-consenso]
+  +  **STD_METRIC_D**: Desviación estándard de metric_D
+  +  **FP_MEAN**: Promedio de Falsos Positivos (métrica usada para modelar Overcautiousness: PAF rechaza U aceptable en TAF)
+  +  **FP_STD**: Desviación estándard de Falsos Positivos
+  +  **FN_MEAN**: Promedio de Falsos Negativos (métrica usada para modelar Bullshit: PAF acepta U no aceptable en TAF)
+  +  **FN_STD**: Promedio de Falsos Negativos
+  +  **TP_MEAN**: Promedio de True Positives (Overcautiousness: lista el total de ataques verdaderos entre pares de argumentos)
+  +  **TP_STD**: Desviación estándard de True Positives
+  +  **TN_MEAN**: Promedio de True Negatives (Bullshit: lista el total de no-ataques verdaderos entre pares de argumentos)
+  +  **TN_STD**: Desviación estándard de True Negatives
+  +  **BULLSHIT_MEAN**: Promedio de nivel de Bullshit (PAF acepta U no aceptable en TAF+)
+  +  **BULLSHIT_STD** Desviación estándard del nivel de Bullshit
+  +  **GWC_MEAN**: Glocal Wrongfuly Cautious (Overcautiousness: PAF rechaza U aceptable en TAF+)
+  +  **GWC_STD**: Desviación estándard del nivel de Glocal Wrongfuly Cautious
+  +  **LWC_MEAN**: Local Wrongfuly Cautious (Overcautiousness: PAF rechaza U aceptable en TAF)
+  +  **LWC_STD**:  Desviación estándard del nivel de Local Wrongfuly Cautious (overcautiousness)
+
+
+
+## Modelado: 
+
+
+Para modelar estos dos factores antrocomplejos (Bullshit/Overcautiouss) se utilizan diálogos argumentativos con agentes con Resource Boundedness. Se presentan dos enfoques de modelado a través de conjuntos de métricas agrupadas, que permiten plantear: 
+
+  + **(1)** Una primera aproximación basada en la **asignación del subconjunto (I) en función de la semántica de PAF (R/RI)** (i.e., aparecen falsos positivos/negativos en función de la semantica-PAF utilizada. La resource boundedness de los agentes se representa a través de una semántica de PAF que hace que asignen el subconjunto (I) a R+ o N+ de manera errónea en función de la semántica.
+
+  + **(2)** Un segundo análisis basado en la **comparativa entre PAF/TAF/TAF+** (i.e, en este caso, se compara la aceptabilidad de las U en un PAF en comparación con la aceptabilidad de estas U en un TAF o TAF+. La actitud bullshiter es representada por el bullshit_level (PAF acepta U no aceptable en TAF+)y además este enfoque permite modelar comportamientos overcautious que son consecuencia de situaciones diferentes de Resource Boundedness: GWC cuando PAF rechaza U aceptable en TAF+ y LWC cuando PAF rechaza U aceptable en TAF)
+
+
+### Descripción de los elementos
+
+
+* **Frameworks/modelos: TAF, PAF**
+
+Decimos que el modelo de diálogo de Amgoud es **(adecuadamente) cauteloso** en el contexto de un AF (i.e., sin Resource Boundedness). Es decir, en el caso de los AF los agentes sólo emiten argumentos verdaderos (i.e., que son aceptables): 
+
+  + No emiten **bullshit** (i.e., argumentos no aceptables)
+  + No dejan de emitir argumentos verdaderos por lo que tampoco es sobrecauteloso (**overcautious**)
+
+```{r}
+#Definición
+
+Llamamos TAF (Total Argumentation Framework) al argumentation framework local de cierto agente sin resource-boundedness. (i.e., al conjunto individual de argumentos disponible).
+  
+  
+``` 
+
+
+
+Para introducir comportamientos antrocomplejos (i.e., los factores bullshit y overcautiousness) se utiliza el enfoque de Resource Boundedness (limitación de recursos), que se implementa través del uso de **PAF (Partial Argumentation Framework)** en lugar del framework de argumentación de Dung (AF) - ya que este opera sin limitación de recursos. En este contexto, en función de la **semántica-PAF utilizada (R o RI)** el modelo de diálogo permite represetar agentes con actitudes bullshiter (i.e., que emitan argumentos que no serían aceptables en un TAF o TAF+) o actitudes sobrecautelosas  (i.e., que dejen de emitir argumentos verdaderos que no se omitirían en un TAF o TAF+).
+
+
+```{r}
+#Definiciones
+
+Llamamos PAF (Partial Argumentation Framework) al argumentation framework local de cierto agente con resource-boundedness (i.e., al sub-conjunto individual de argumentos disponible) 
+
+En este contexto, decimos que U es una uterancia cuando ha sido emitida por un Argue(U) en el PAF, i.e., es aceptable por alguna de las semánticas de PAF ( i.e., R o RI).
+  
+``` 
+
+
+  
+## Enfoques de modelado
+
+
+
+### 1. Falsos positivos y Falsos negativos en PAF
+
+
+El hecho de que exista Resource Boundedness (i.e., el conjunto I) hace que en función de la semántica utilizada por los agentes (R/RI) aparezcan falsos positivos o falsos negativos, es decir que fallen (debido a la semántica impuesta) asignando las relaciones de ataque entre pares de argumentos inciertas (I). 
+
+En este enfoque distinguimos entre diferentes conjuntos: 
+
+
+* **R**, Conjunto de relaciones de ataque entre pares de argumentos disponibles en TAF
+* **N**, Conjunto de relaciones de no-ataque entre pares de argumentos disponibles en TAF
+* **I**, Conjunto de relaciones entre pares de argumentos inciertas debido a PAF que se resuelven en función de la semántica:
+
+    + **Semántica R** I se asigna al **conjunto N+**  cuando en realidad pertenece a R+
+    + **Semántica RI** I se asigna al **conjunto R+** cuando en realidad pertence a N+
+
+
+**Falso negativo:** PAF con semántica R asigna I a N+ cuando en realidad pertenece a R+
+
+Así cuando los agentes usan la **semántica R**, estos son susceptibles a **Falsos Negativos**: es decir asignan I a N+ asumiendo que no hay ataques entre argumentos cuando en realidad I o parte de I pertenece a R* (i.e., sí que existen ataques).
+
+
+**Falso positivo:** PAF con semántica RI asigna I a R+ cuando en realidad pertenece a N+
+
+
+Por otro lado, cuando los agentes usan la **semántica RI**, estos son susceptibles a **Falsos Positivos**: es decir asignan I a R+ asumiendo que hay ataques entre argumentos cuando en realidad I  o parte de I pertenece a N+ (i.e., no existen ataques).
+
+
+
+
+### 2. Bullshit, GWC y LGW para etiquetar utterances(U) en base [TAF+, TAF, PAF]
+
+
+
+*  **Bullshit:** 
+
+    + **Bullshit_Mean:** "cuando el PAF local acepta U pero en realidad no es aceptable (en el TAF+)", es decir, si U ha sido emitido porque fue seleccionado al azar por algún agente en su turno y lo aceptó para emitirlo porque operaba con semántica R de PAF.  Esta U-bullshit se cuenta una sola vez por dialogo=> i.e., queremos estudiar cómo el número de U-bullshits e U-sonbrecautelosas afectan a la calidad de las decisiones colectivas, para ello listaremos el número de U-B y U-S que aparecen en cada diálogo y mediremos como estas afectan a la calidad de la decisión.
+    
+
+
+*  **Overcautiouness:**
+
+    +  **Global Overcautious/Wrongfullycautious:** "cuando U es aceptable de acuerdo a TAF+ pero el PAF nunca tuvo la oportunidad de elegirlo", es decir, en ningún turno, de ningún agente durante el diálogo con resource-boundeness esta U ha sido aceptable por el PAF (debido a la semántica RI) del agente en ese turno.
+
+    +  **Local Overcautious/Wrongfullycautious:** "cuando U ha sido emitido por algun TAF pero el PAF nunca tuvo la oportunidad de elegirlo", es decir, si U ha sido emitido en un dialogo sin resource boundedness por al menos un agente, osea, ha sido seleccionado y era aceptable por el TAF; pero en ningún turno, de ningún agente durante el diálogo con resource-boundeness ha sido aceptable por el PAF (debido a la semántica RI) del agente en ese turno.
